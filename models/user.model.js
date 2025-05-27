@@ -35,14 +35,14 @@ function create({ name, email, role_id }) {
   return result;
 }
 
-function update(id, { name, email, role_id }) {
-  if (!name || name.length < 2) throw new Error('Nombre inválido');
+function update(id, { user, email, role_id }) {
+  if (!user || user.length < 2) throw new Error('Nombre inválido');
   if (!email || !email.includes('@')) throw new Error('Email inválido');
   const now = new Date().toISOString();
   const result = db.prepare(`
-    UPDATE users SET name = ?, email = ?, role_id = ?, updated_at = ?
+    UPDATE users SET user = ?, email = ?, role_id = ?, updated_at = ?
     WHERE id = ? AND deleted_at IS NULL
-  `).run(name, email, role_id || null, now, id);
+  `).run(user, email, role_id || null, now, id);
   console.log(chalk.cyan(`[DB] Usuario ID ${id} actualizado (${result.changes} cambio/s)`));
   return result;
 }
