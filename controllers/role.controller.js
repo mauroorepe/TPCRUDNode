@@ -79,7 +79,7 @@ function getRoleById(req, res) {
   function deleteRole(req, res) {
     try {
       Role.remove(req.params.id);
-      res.redirect('/roles');
+      res.redirect('/roles/delete');
     } catch (err) {
       console.error('[Error]', err.message);
       res.status(500).send('Error al eliminar');

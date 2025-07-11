@@ -1,20 +1,26 @@
 const db = require('../config/db');
 const chalk = require('chalk');
 
-function getAll({ limit = 10, offset = 0, search = '', role = null }) {
-  const baseQuery = `SELECT users.*, roles.name AS role_name FROM users
-    LEFT JOIN roles ON users.role_id = roles.id
-    WHERE deleted_at IS NULL AND (name LIKE ? OR email LIKE ?) ` +
-    (role ? 'AND role_id = ? ' : '') +
-    'ORDER BY id LIMIT ? OFFSET ?';
+// function getAll({ limit = 10, offset = 0, search = '', role = null }) {
+//   const baseQuery = `SELECT users.*, roles.name AS role_name FROM users
+//     LEFT JOIN roles ON users.role_id = roles.id
+//     WHERE deleted_at IS NULL AND (name LIKE ? OR email LIKE ?) ` +
+//     (role ? 'AND role_id = ? ' : '') +
+//     'ORDER BY id LIMIT ? OFFSET ?';
 
-  const params = [`%${search}%`, `%${search}%`];
-  if (role) params.push(role);
-  params.push(Number(limit), Number(offset));
+//   const params = [`%${search}%`, `%${search}%`];
+//   if (role) params.push(role);
+//   params.push(Number(limit), Number(offset));
 
-  const results = db.prepare(baseQuery).all(...params);
-  console.log(chalk.blue(`[DB] Listado obtenido (${results.length} resultados)`));
-  return results;
+//   const results = db.prepare(baseQuery).all(...params);
+//   console.log(chalk.blue(`[DB] Listado obtenido (${results.length} resultados)`));
+//   return results;
+// }
+
+function getAll() {
+  const roles = db.prepare('SELECT * FROM users').all();
+  console.log(chalk.blue(`[DB] ${roles.length} usuarios encontrados`));
+  return roles;
 }
 
 function getById(id) {

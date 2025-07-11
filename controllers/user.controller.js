@@ -2,10 +2,20 @@ const User = require('../models/user.model');
 const Role = require('../models/role.model');
 const RolePermission = require('../models/role_permission.model');
 
+// function getAllUsers(req, res) {
+//   console.log(req)
+//   try {
+//     const { limit, offset, search, role } = req.query;
+//     const users = User.getAll({ limit, offset, search, role });
+//     res.render('users/index', { users });
+//   } catch (err) {
+//     console.error('[Error]', err.message);
+//     res.status(500).send('Error al obtener usuarios');
+//   }
+// }
 function getAllUsers(req, res) {
   try {
-    const { limit, offset, search, role } = req.query;
-    const users = User.getAll({ limit, offset, search, role });
+    const users = User.getAll();
     res.render('users/index', { users });
   } catch (err) {
     console.error('[Error]', err.message);
@@ -61,7 +71,7 @@ function updateUser(req, res) {
 function deleteUser(req, res) {
   try {
     User.softDelete(req.params.id);
-    res.redirect('/users');
+    res.redirect('/users/delete');
   } catch (err) {
     console.error('[Error]', err.message);
     res.status(500).send('Error al eliminar');

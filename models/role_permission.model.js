@@ -9,13 +9,13 @@ function getPermissionsByRoleId(roleId) {
 `).all(roleId);
 }
 
-function getPermissionsByUserId(userId){
-    return db.prepare(`
-    SELECT p.* FROM permissions p
-    JOIN role_permission rp ON p.id = rp.permiso_id
-    WHERE rp.rol_id = ?
-`).all(roleId);
-}
+// function getPermissionsByUserId(userId){
+//     return db.prepare(`
+//     SELECT p.* FROM permissions p
+//     JOIN role_permission rp ON p.id = rp.permiso_id
+//     WHERE rp.rol_id = ?
+// `).all(roleId);
+// }
 
 function setPermissionsForRole(roleId, permissionIds) {
     const deleteStmt = db.prepare('DELETE FROM role_permission WHERE rol_id = ?');
